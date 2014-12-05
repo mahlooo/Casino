@@ -1,5 +1,6 @@
 package io.malone.bukkit.casino.api;
 
+import io.malone.bukkit.casino.CasinoPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -7,10 +8,12 @@ public class Gambler {
 
     private Player bukkit;
     private boolean playing;
+    private boolean destroying;
 
     public Gambler(Player bukkit) {
         this.bukkit = bukkit;
         this.playing = false;
+        this.destroying = false;
     }
 
     /**
@@ -28,6 +31,20 @@ public class Gambler {
     }
 
     /**
+     * Gets if the Gambler can destroy Casino games.
+     */
+    public boolean isDestroying() {
+        return destroying;
+    }
+
+    /**
+     * Sets the Gambler as destroying (able to destroy Casino games).
+     */
+    public void setDestroying(boolean destroying) {
+        this.destroying = destroying;
+    }
+
+    /**
      * Tests the Gambler for the given permission.
      */
     public boolean testPermission(String permission) {
@@ -42,9 +59,23 @@ public class Gambler {
     }
 
     /**
+     * Prints a given message using the default formatting to the Gambler.
+     */
+    public void print(String msg) {
+        printRaw(CasinoPlugin.PREFIX + ChatColor.GREEN + msg);
+    }
+
+    /**
+     * Prints a debug message to the Gambler.
+     */
+    public void printDebug(String msg) {
+        printRaw(CasinoPlugin.PREFIX + ChatColor.GRAY + msg);
+    }
+
+    /**
      * Prints an error to the Gambler.
      */
     public void printError(String msg) {
-        printRaw(ChatColor.RED + msg);
+        printRaw(CasinoPlugin.PREFIX + ChatColor.RED + msg);
     }
 }

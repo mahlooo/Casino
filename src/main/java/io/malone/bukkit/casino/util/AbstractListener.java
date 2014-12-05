@@ -3,11 +3,14 @@ package io.malone.bukkit.casino.util;
 import io.malone.bukkit.casino.CasinoPlugin;
 import org.bukkit.event.Listener;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class AbstractListener implements Listener {
 
     private final CasinoPlugin plugin;
 
     public AbstractListener(CasinoPlugin plugin) {
+        checkNotNull(plugin);
         this.plugin = plugin;
     }
 

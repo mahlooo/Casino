@@ -6,6 +6,7 @@ import io.malone.bukkit.casino.api.Gambler;
 import io.malone.bukkit.casino.api.Game;
 import io.malone.bukkit.casino.listeners.ConnectionListener;
 import io.malone.bukkit.casino.listeners.InteractListener;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,6 +15,8 @@ import java.util.Set;
 import java.util.UUID;
 
 public class CasinoPlugin extends JavaPlugin {
+
+    public static final String PREFIX = ChatColor.WHITE + "[" + ChatColor.GRAY + "Casino" + ChatColor.WHITE + "] ";
 
     private Set<Game> games = Sets.newHashSet();
     private Map<UUID, Gambler> gamblers = Maps.newHashMap();

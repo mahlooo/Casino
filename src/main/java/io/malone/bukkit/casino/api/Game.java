@@ -3,6 +3,7 @@ package io.malone.bukkit.casino.api;
 import org.bukkit.block.Block;
 
 import java.util.List;
+import java.util.Set;
 
 public interface Game {
 
@@ -17,9 +18,9 @@ public interface Game {
     Block getBaseBlock();
 
     /**
-     * Builds the game in the world.
+     * Gets the blocks that belong to this game.
      */
-    void build();
+    Set<Block> getBlocks();
 
     /**
      * Plays the game with the given gambler. This will result in the game being used ({@link Game#isBeingUsed()}).
@@ -29,19 +30,16 @@ public interface Game {
     void play(Gambler player);
 
     /**
-     * Ends the game forcefully. Used when the plugin is being disabled.
-     */
-    void end();
-
-    /**
      * Returns if the game is being used.
      */
     boolean isBeingUsed();
 
     /**
      * Called every tick (1/20th of a second) when the game is running.
+     *
+     * @return true if if the ticking should stop, false if it should continue
      */
-    void tick();
+    boolean tick();
 
     /**
      * Gets the cost of this game.
@@ -52,4 +50,19 @@ public interface Game {
      * Gets a list of commands to be executed when this game is won.
      */
     List<String> getPayout();
+
+    /**
+     * Builds the game in the world.
+     */
+    void build();
+
+    /**
+     * Destroys the game from the world.
+     */
+    void destroy();
+
+    /**
+     * Ends the game forcefully. Used when the plugin is being disabled.
+     */
+    void end();
 }

@@ -6,6 +6,7 @@ import io.malone.bukkit.casino.api.Game;
 import io.malone.bukkit.casino.util.AbstractListener;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.UUID;
@@ -53,5 +54,25 @@ public class InteractListener extends AbstractListener {
 
         gambler.setPlaying(true);
         game.play(gambler);
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        Block broken = event.getBlock();
+        Gambler gambler = getPlugin().getGamblers().get(event.getPlayer().getUniqueId());
+
+        for (Game game : getPlugin().getGames()) {
+            if (game.getBlocks().contains(broken)) {
+                if (gambler.isDestroying()) {
+                    game.destroy();
+                    gambler.printDebug("Successfully destroyed Casino game '" + game.getIdentifier() + "'.");
+                } else {
+                    event.setCancelled(true);
+                    gambler.printError("You cannot destroy Casino games.");
+                }
+
+                return;
+            }
+        }
     }
 }
