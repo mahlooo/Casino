@@ -2,7 +2,7 @@ package io.malone.bukkit.casino.api;
 
 public interface Game {
 
-    void play(GamePlayer player);
+    void play(Gambler player);
 
     void tick();
 }
