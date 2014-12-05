@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import io.malone.bukkit.casino.api.Gambler;
 import io.malone.bukkit.casino.api.Game;
 import io.malone.bukkit.casino.listeners.ConnectionListener;
+import io.malone.bukkit.casino.listeners.InteractListener;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,6 +22,7 @@ public class CasinoPlugin extends JavaPlugin {
     public void onEnable() {
         // Register listeners
         (new ConnectionListener(this)).registerEvents();
+        (new InteractListener(this)).registerEvents();
     }
 
     @Override
