@@ -1,16 +1,20 @@
 package io.malone.bukkit.casino;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import io.malone.bukkit.casino.api.Gambler;
+import io.malone.bukkit.casino.api.Game;
 import io.malone.bukkit.casino.listeners.ConnectionListener;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class CasinoPlugin extends JavaPlugin {
 
+    private Set<Game> games = Sets.newHashSet();
     private Map<UUID, Gambler> gamblers = Maps.newHashMap();
 
     @Override
@@ -38,5 +42,13 @@ public class CasinoPlugin extends JavaPlugin {
         UUID uuid = player.getUniqueId();
 
         gamblers.remove(uuid);
+    }
+
+    public Set<Game> getGames() {
+        return games;
+    }
+
+    public Map<UUID, Gambler> getGamblers() {
+        return gamblers;
     }
 }

@@ -1,6 +1,9 @@
 package io.malone.bukkit.casino.api;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import java.awt.*;
 
 public class Gambler {
 
@@ -24,7 +27,11 @@ public class Gambler {
         return bukkit.hasPermission(permission);
     }
 
-    public void message(String msg) {
+    public void printRaw(String msg) {
         bukkit.sendMessage(msg);
+    }
+
+    public void printError(String msg) {
+        printRaw(ChatColor.RED + msg);
     }
 }
