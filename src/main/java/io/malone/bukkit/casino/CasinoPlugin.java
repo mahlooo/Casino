@@ -20,17 +20,30 @@ public class CasinoPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Register all online players
+        for (Player online : getServer().getOnlinePlayers()) {
+            registerPlayer(online);
+        }
+
         // Register listeners
         (new ConnectionListener(this)).registerEvents();
         (new InteractListener(this)).registerEvents();
+
+        // Load games
+        // TODO
     }
 
     @Override
     public void onDisable() {
         // End all running games
+        for (Game game : games) {
+            if (game.isBeingUsed()) {
+                game.end();
+            }
+        }
 
-        // Clear gamblers map
         gamblers.clear();
+        games.clear();
     }
 
     public void registerPlayer(Player player) {
