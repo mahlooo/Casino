@@ -6,10 +6,12 @@ public class Gambler {
 
     private Player bukkit;
     private boolean playing;
+    private boolean rigged;
 
     public Gambler(Player bukkit) {
         this.bukkit = bukkit;
         this.playing = false;
+        this.rigged = false;
     }
 
     public boolean isPlaying() {
@@ -20,7 +22,19 @@ public class Gambler {
         this.playing = playing;
     }
 
-    public void reward() {
-        // TODO: How to reward items / currency
+    public boolean isRigged() {
+        return rigged;
+    }
+
+    public void setRigged(boolean rigged) {
+        this.rigged = rigged;
+    }
+
+    public boolean testPermission(String permission) {
+        return bukkit.hasPermission(permission);
+    }
+
+    public void message(String msg) {
+        bukkit.sendMessage(msg);
     }
 }

@@ -7,13 +7,18 @@
     <groupId>io.malone</groupId>
     <artifactId>Casino</artifactId>
     <version>0.0.1</version>
+
     <dependencies>
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.7.2-R0.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>15.0</version>
+        </dependency>
     </dependencies>
-
 
 </project>
