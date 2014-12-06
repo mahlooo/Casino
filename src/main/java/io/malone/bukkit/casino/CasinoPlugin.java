@@ -14,6 +14,8 @@ import io.malone.bukkit.casino.listeners.ConnectionListener;
 import io.malone.bukkit.casino.listeners.InteractListener;
 import io.malone.bukkit.casino.util.GameTypeAdapter;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -65,6 +67,44 @@ public class CasinoPlugin extends JavaPlugin {
 
         gamblers.clear();
         games.clear();
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!cmd.getName().equalsIgnoreCase("casino")) {
+            return false;
+        }
+
+        Gambler gambler = null;
+        if (sender instanceof Player) {
+            gambler = gamblers.get(((Player) sender).getUniqueId());
+        }
+
+        if (args.length == 0) {
+            args = new String[1];
+            args[0] = "";
+        }
+
+        String sub = args[0].toLowerCase();
+
+        if (sub.equals("ver") || sub.equals("version")) {
+            sender.sendMessage(PREFIX
+                    + ChatColor.DARK_GREEN + "Running version " + ChatColor.GREEN + getDescription().getVersion()
+                    + ChatColor.DARK_GREEN + " authored by " + ChatColor.GREEN + getDescription().getAuthors());
+        } else if (sub.equals("stats")) {
+            if (sender.hasPermission("casino.stats")) {
+                sender.sendMessage(PREFIX
+                        + ChatColor.DARK_GREEN + "There are currently "
+                        + ChatColor.GREEN + games.size() + (games.size() == 1 ? " game" : " games")
+                        + ChatColor.DARK_GREEN + " registered.");
+            } else {
+                sender.sendMessage(PREFIX + ChatColor.RED + "You don't have permission.");
+            }
+        } else {
+            sender.sendMessage(PREFIX + ChatColor.GRAY + "Usage: /casino [version|stats]");
+        }
+
+        return true;
     }
 
     public void loadGames() {

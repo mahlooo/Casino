@@ -2,3 +2,8 @@ name: Casino
 authors: [Dr_fantasmo, mahlooo]
 version: 0.0.1
 main: io.malone.bukkit.casino.CasinoPlugin
+
+commands:
+    casino:
+        description: Base command for the Casino plugin.
+        usage: /<command> [args]
