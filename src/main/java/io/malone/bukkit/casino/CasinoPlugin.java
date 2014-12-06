@@ -155,6 +155,8 @@ public class CasinoPlugin extends JavaPlugin {
 
             writer.flush();
             writer.close();
+
+            getLogger().info(games.size() + (games.size() == 1 ? " game" : " games") + " saved.");
         } catch (IOException e) {
             getLogger().warning("Unable to save games.json file");
         }
@@ -171,6 +173,14 @@ public class CasinoPlugin extends JavaPlugin {
         UUID uuid = player.getUniqueId();
 
         gamblers.remove(uuid);
+    }
+
+    public void registerGame(Game game) {
+        games.add(game);
+    }
+
+    public void removeGame(Game game) {
+        games.remove(game);
     }
 
     public Set<Game> getGames() {
