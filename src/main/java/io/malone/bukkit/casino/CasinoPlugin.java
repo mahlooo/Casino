@@ -2,10 +2,14 @@ package io.malone.bukkit.casino;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.malone.bukkit.casino.api.Gambler;
 import io.malone.bukkit.casino.api.Game;
 import io.malone.bukkit.casino.listeners.ConnectionListener;
 import io.malone.bukkit.casino.listeners.InteractListener;
+import io.malone.bukkit.casino.util.GameTypeAdapter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +21,11 @@ import java.util.UUID;
 public class CasinoPlugin extends JavaPlugin {
 
     public static final String PREFIX = ChatColor.WHITE + "[" + ChatColor.GRAY + "Casino" + ChatColor.WHITE + "] ";
+
+    private Gson gson = new GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .registerTypeAdapter(Game.class, new GameTypeAdapter(this))
+            .create();
 
     private Set<Game> games = Sets.newHashSet();
     private Map<UUID, Gambler> gamblers = Maps.newHashMap();

@@ -10,10 +10,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class AbstractGame implements Game {
 
-    protected final CasinoPlugin plugin;
+    protected transient final CasinoPlugin plugin;
+    protected transient Gambler gambler;
+    protected transient boolean beingUsed;
     protected Block baseBlock;
-    protected Gambler gambler;
-    protected boolean beingUsed;
     protected Set<Block> blocks;
 
     public AbstractGame(CasinoPlugin plugin, Block baseBlock) {

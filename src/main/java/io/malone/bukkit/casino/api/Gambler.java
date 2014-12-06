@@ -1,5 +1,6 @@
 package io.malone.bukkit.casino.api;
 
+import com.google.common.base.Objects;
 import io.malone.bukkit.casino.CasinoPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -77,5 +78,18 @@ public class Gambler {
      */
     public void printError(String msg) {
         printRaw(CasinoPlugin.PREFIX + ChatColor.RED + msg);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("uuid", bukkit.getUniqueId())
+                .add("playing", playing)
+                .add("destroying", destroying).toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return bukkit.getUniqueId().hashCode();
     }
 }
