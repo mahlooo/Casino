@@ -2,6 +2,7 @@ package io.malone.bukkit.casino.api;
 
 import com.google.common.collect.Sets;
 import io.malone.bukkit.casino.CasinoPlugin;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import java.util.Set;
@@ -57,5 +58,12 @@ public abstract class AbstractGame implements Game {
 
     public void registerBlock(Block block) {
         blocks.add(block);
+    }
+
+    @Override
+    public void destroy() {
+        for (Block block : getBlocks()) {
+            block.setType(Material.AIR);
+        }
     }
 }
