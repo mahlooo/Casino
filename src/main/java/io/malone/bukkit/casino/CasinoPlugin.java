@@ -32,6 +32,7 @@ public class CasinoPlugin extends JavaPlugin {
     private Gson gson = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
             .registerTypeAdapter(Game.class, new GameTypeAdapter(this))
+            .setPrettyPrinting()
             .create();
 
     private File gamesFile = new File(getDataFolder(), "games.json");

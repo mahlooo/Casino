@@ -63,7 +63,7 @@ public class Gambler {
      * Prints a given message using the default formatting to the Gambler.
      */
     public void print(String msg) {
-        printRaw(CasinoPlugin.PREFIX + ChatColor.GREEN + msg);
+        printRaw(CasinoPlugin.PREFIX + ChatColor.DARK_GREEN + msg);
     }
 
     /**
