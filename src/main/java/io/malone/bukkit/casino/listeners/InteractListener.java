@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.Iterator;
 import java.util.UUID;
 
 public class InteractListener extends AbstractListener {
@@ -61,11 +62,14 @@ public class InteractListener extends AbstractListener {
         Block broken = event.getBlock();
         Gambler gambler = getPlugin().getGamblers().get(event.getPlayer().getUniqueId());
 
-        for (Game game : getPlugin().getGames()) {
+        Iterator<Game> it = getPlugin().getGames().iterator();
+        while (it.hasNext()) {
+            Game game = it.next();
             if (game.getBlocks().contains(broken)) {
                 if (gambler.isDestroying()) {
                     game.destroy();
                     gambler.printDebug("Successfully destroyed Casino game '" + game.getIdentifier() + "'.");
+                    it.remove();
                 } else {
                     event.setCancelled(true);
                     gambler.printError("You cannot destroy Casino games.");
