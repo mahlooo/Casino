@@ -100,8 +100,20 @@ public class CasinoPlugin extends JavaPlugin {
             } else {
                 sender.sendMessage(PREFIX + ChatColor.RED + "You don't have permission.");
             }
+        } else if (sub.equals("destroy")) {
+            if (gambler == null) {
+                sender.sendMessage(PREFIX + ChatColor.RED + "Only players can use this command!");
+            } else {
+                if (sender.hasPermission("casino.destroy")) {
+                    // Toggle destroying
+                    gambler.setDestroying(!gambler.isDestroying());
+                    gambler.print("You are now " + (gambler.isDestroying() ? "able" : "unable") + " to destroy Casino games.");
+                } else {
+                    gambler.printError("You don't have permission.");
+                }
+            }
         } else {
-            sender.sendMessage(PREFIX + ChatColor.GRAY + "Usage: /casino [version|stats]");
+            sender.sendMessage(PREFIX + ChatColor.GRAY + "Usage: /casino [version|stats|destroy]");
         }
 
         return true;

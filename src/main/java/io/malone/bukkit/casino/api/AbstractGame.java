@@ -65,5 +65,7 @@ public abstract class AbstractGame implements Game {
         for (Block block : getBlocks()) {
             block.setType(Material.AIR);
         }
+
+        plugin.getGames().remove(this);
     }
 }
