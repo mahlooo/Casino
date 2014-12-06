@@ -5,6 +5,9 @@ import com.google.common.collect.Sets;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.malone.bukkit.casino.api.Gambler;
 import io.malone.bukkit.casino.api.Game;
 import io.malone.bukkit.casino.listeners.ConnectionListener;
@@ -14,6 +17,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.*;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -23,10 +28,11 @@ public class CasinoPlugin extends JavaPlugin {
     public static final String PREFIX = ChatColor.WHITE + "[" + ChatColor.GRAY + "Casino" + ChatColor.WHITE + "] ";
 
     private Gson gson = new GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
             .registerTypeAdapter(Game.class, new GameTypeAdapter(this))
             .create();
 
+    private File gamesFile = new File(getDataFolder(), "games.json");
     private Set<Game> games = Sets.newHashSet();
     private Map<UUID, Gambler> gamblers = Maps.newHashMap();
 
@@ -42,7 +48,7 @@ public class CasinoPlugin extends JavaPlugin {
         (new InteractListener(this)).registerEvents();
 
         // Load games
-        // TODO
+        loadGames();
     }
 
     @Override
@@ -54,8 +60,52 @@ public class CasinoPlugin extends JavaPlugin {
             }
         }
 
+        // Save games
+        saveGames();
+
         gamblers.clear();
         games.clear();
+    }
+
+    public void loadGames() {
+        getLogger().info("Loading games...");
+        try {
+            if (gamesFile.exists()) {
+                JsonReader reader = new JsonReader(new FileReader(gamesFile));
+
+                List<Game> gameList = gson.fromJson(reader, new TypeToken<List<Game>>() {
+                }.getType());
+                games.addAll(gameList);
+                getLogger().info(gameList.size() + (gameList.size() == 1 ? " game" : " games") + " loaded.");
+
+                reader.close();
+            } else {
+                getLogger().info("No games.json file found.");
+            }
+        } catch (FileNotFoundException e) {
+            getLogger().warning(gamesFile.getName() + " file not found, unable to load games.");
+        } catch (IOException e) {
+            getLogger().warning("Unable to close games.json file reader.");
+        }
+    }
+
+    public void saveGames() {
+        getLogger().info("Saving games...");
+        try {
+            JsonWriter writer = new JsonWriter(new FileWriter(gamesFile));
+
+            // Write all existing games
+            writer.beginArray();
+            for (Game game : games) {
+                writer.value(gson.toJson(game));
+            }
+            writer.endArray();
+
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            getLogger().warning("Unable to save games.json file");
+        }
     }
 
     public void registerPlayer(Player player) {

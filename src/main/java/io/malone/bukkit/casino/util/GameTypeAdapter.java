@@ -85,10 +85,11 @@ public class GameTypeAdapter extends TypeAdapter<Game> {
         reader.endObject();
 
         // Return appropriate Game object
+        Game game = null;
         if (identifier.equals("slots")) {
-            return null;
-        } else {
-            return null;
+            // game = new SlotMachine(...);
         }
+
+        return game;
     }
 }
